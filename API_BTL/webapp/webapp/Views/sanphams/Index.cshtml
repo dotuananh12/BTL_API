@@ -1,0 +1,348 @@
+﻿@model IEnumerable<webapp.Models.sanpham>
+@using webapp.Models
+@{
+    Model1 db = new Model1();
+    ViewBag.loaisp = new SelectList(db.loaisanphams, "id", "tenloai");
+    ViewBag.ncc = new SelectList(db.nhacungcaps, "id", "tenncc");//day
+    ViewBag.Title = "Index";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<h2>Sản Phẩm</h2>
+<div class="">
+    <input name="search" type="text" id="search" placeholder="search..." required />
+    <button type="button" id="btnsearch" class="btn btn-primary glyphicon glyphicon-search"></button>
+</div>
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+    @*<button class="btn btn-primary" onclick="Them()">Thêm</button>*@
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.loaisp)*@
+            Loại xe
+        </th>
+        <!--<th>-->
+            @*@Html.DisplayNameFor(model => model.loaisp)*@
+            <!--Nha cc
+        </th>-->
+        <th>
+            @*@Html.DisplayNameFor(model => model.tensp)*@
+            Tên xe
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.soluong)*@
+            Số Lượng
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.img)*@
+            Hình ảnh
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.gianhap)*@
+            Gía nhập
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.giaban)*@
+            Gía bán
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.ngaythem)*@
+            Ngày thêm
+        </th>
+        <th></th>
+    </tr>
+    <tbody id="datasearchding">
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.loaisp)
+            </td>
+            @*<td>
+                @Html.DisplayFor(modelItem => item.ncc)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.tensp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.soluong)
+            </td>
+            <td>
+                <img src="http://localhost:54888/@item.img" class="profile-user-img" style="max-width:100px" />
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.gianhap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.giaban)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ngaythem)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.id }) |*@
+                <button onclick="Sua('@item.id')" class="btn btn-primary">Sửa</button>  |
+                @Html.ActionLink("Details", "Details", new { id = item.id }, new { @class = "btn btn-success" }) |
+                <button onclick="xoaloai('@item.id')" class="btn btn-danger ">Xóa</button>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<section>
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-lg" style="">
+            <div class="modal-content">
+                @*@using (Html.BeginForm("Create", "sanphams", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                    {@Html.AntiForgeryToken()*@
+                <div class="box box-info">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Sản phẩm </h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <!-- form start -->
+                    <div class="form-horizontal">
+                        <div class="box-body">
+
+                            <div class="">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">id</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="txtid" name="id" class="form-control" />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Tên Sản phẩm</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="txttensp" name="tensp" class="form-control" />
+
+                                    </div>
+                                </div>
+                                <label class="col-sm-2 control-label">Loại sản phẩm</label>
+                                @*<div class="col-sm-10">*@
+                                @*@Html.DropDownList("loaisp", null, new { @class = "form-control" })*@
+
+                                @*</div>*@
+                                <select class="form-control" id="txtloaisp" name="maloai">
+                                    @foreach (var item in db.loaisanphams)
+                                    {
+                                        <option value="@item.id">@item.tenloai</option>
+                                    }
+                                </select>
+                                <br />
+                                <label class="col-sm-2 control-label">Loại sản phẩm</label>
+                                @*<div class="col-sm-10">*@
+                                @*@Html.DropDownList("loaisp", null, new { @class = "form-control" })*@
+
+                                @*</div>*@
+                                <select class="form-control" id="txtncc" name="maloai">
+                                    @foreach (var item in db.nhacungcaps)
+                                    {
+                                        <option value="@item.id">@item.tenncc</option>
+                                    }
+                                </select>
+                                <br />
+
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Số lượng</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="txtsoluong" name="soluong" class="form-control" />
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Giá nhập</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="txtgianhap" name="gianhap" class="form-control" />
+
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">Giá bán</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" id="txtgiaban" name="giaban" class="form-control" />
+
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">Ảnh đại diện</label>
+                                <div class="col-sm-10">
+                                    <input type="file" id="txtfilename" name="filename" class="form-control" />
+                                </div>
+                            </div>
+
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" id="btnAdd" onclick="return ThemMoi();" class="btn btn-success ">
+                                    Lưu thông
+                                    tin
+                                </button>
+                                <button type="button" onclick="edit()" id="btnUpdate" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </div>
+
+                        <!-- /.box-body -->
+                    </div>
+                    <!-- /.box-footer -->
+                </div>
+                }
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+</section>
+
+@*<script>
+    function ThemMoi() {
+        var files = new FormData();
+        var files = $("#fileUpload").get(0).files;
+
+        if (files.length > 0) {
+            data.append("img", $('input[name=img').val());
+            data.append("tensp", $('input[name=tensp]').val());
+            data.append("loaisp", $('input[name=loaisp]').val());
+            data.append("soluong", $('input[name=soluong]').val());
+            data.append("gianhap", $('input[name=gianhap]').val());
+            data.append("giaban", $('input[name=giaban]').val());
+        }
+        //item.departmentID = $("#txtMaKhoa").val();
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost:54888/api/sanpham",
+            dataType: "json",
+            contentType: 'application/json',
+            data: JSON.stringify(item),
+        }).done(function (res) {
+            window.location.href = "sanpham.html";
+            alert('Thêm thành công');
+        });
+    }
+    function Them() {
+        // location.href="addloai.html";
+        $('#txttensp').val('');
+        $("#txtloaisp").val('');
+        $('#txtsoluong').val('');
+        $("#txtimg").val('');
+        $("#txtgianhap").val('');
+        $("#txtgiaban").val('');
+        $('#btnUpdate').hide();
+        $('#btnAdd').show();
+        $('#myModal').modal("show");
+        $('.modal-title').html('Thêm thông tin');
+    }
+</script>*@
+<script>
+
+    function edit() {
+        var obj = {
+            id: $('#txtid').val(),
+            tensp: $("#txttensp").val(),
+            loaisp: $("#txtloaisp").val(),
+            ncc: $("#txtncc").val(),
+            soluong: $("#txtsoluong").val(),
+            img: $("#txtimg").val(),
+            gianhap: $("#txtgianhap").val(),
+            giaban: $("#txtgiaban").val()
+        }
+        $.ajax({
+            url: 'http://localhost:54888/api/sanpham',
+            data: JSON.stringify(obj),
+            type: "PUT",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: function (result) {
+                alert("đã sửa thành công");
+                location.reload();
+
+            },
+            error: function (errormessage) {
+                alert(errormessage.responseText);
+            }
+        });
+    }
+    function Sua(id) {
+        //item.departmentID = $("#txtMaKhoa").val();
+        $.ajax({
+            type: "get",
+            url: "http://localhost:54888/api/sanpham?id=" + id,
+            dataType: "json",
+            contentType: 'application/json',
+            data: { id: id, },
+            success: function (data) {
+                console.log(data);
+                $("#txtid").val(data.id);
+                $('#txttensp').val(data.tensp);
+                $("#txtloaisp").val(data.loaisp);
+                $("#txtncc").val(data.ncc);
+                $('#txtsoluong').val(data.soluong);
+                $("#txtimg").val(data.img);
+                $("#txtgianhap").val(data.gianhap);
+                $("#txtgiaban").val(data.giaban);
+                $('#myModal').modal('show');
+                $('#btnUpdate').show();
+                $('#btnAdd').hide();
+                $('.modal-title').html('Sửa bản ghi');
+            },
+        });
+    }
+    function xoaloai(id) {
+        var cf = confirm("Bạn có muốn xóa không ?");
+        if (cf) {
+            $.ajax({
+                type: "delete",
+                url: "http://localhost:54888/api/sanpham?id=" + id,
+                datatype: "json",
+                data: {
+                    id: id,//controler
+                },
+                success: function (data) {
+                    window.location;
+                    location.reload();
+                    alert('xóa thành công');
+                },
+                //
+                //alert("OK ! xóa thành công.");
+            });
+        }
+    }
+</script>
+<script>
+    $(document).ready(function () {
+        $("#btnsearch").click(function () {
+            var searchvalue = $("#search").val();
+            var setdata = $("#datasearchding");
+            setdata.html("");
+            $.ajax({
+                type: "get",
+                url: "http://localhost:54888/api/sanpham?search=" + searchvalue,
+                contentType: "html",
+                success: function (result) {
+                    if (result.length == 0) {
+                        setdata.append('<tr><td style="color:red">Không tìm thấy dữ liệu</td></tr>')
+                    }
+                    else
+                        $.each(result, function (key, value) {
+                            var stt = 1;
+                            var data = "<tr>" +
+                                "<td>" + value.id + "</td>" +
+                                "<td>" + value.tensp + "</td>" +
+                                "<td>" + value.soluong + "</td>" +
+                                "<td>" +
+                                '<img src="http://localhost:54888/' + value.img + '"class=profile-user-img" style="width:140px"/>' +
+                                "</td>" +
+                                "<td>" + value.gianhap + "</td>" +
+                                "<td>" + value.giaban + "</td>" +
+                                "</tr>";
+                            setdata.append(data);
+                        });
+                }
+            })
+        });
+    });
+</script>

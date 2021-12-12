@@ -1,0 +1,76 @@
+﻿@model webapp.Models.sanpham
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>sanpham</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @*@Html.DisplayNameFor(model => model.loaisanpham.tenloai)*@
+            Tên loại
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.loaisanpham.tenloai)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tensp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tensp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.soluong)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.soluong)
+        </dd>
+
+        @*<dt>
+            @Html.DisplayNameFor(model => model.img)
+        </dt>*@
+        
+        @*<dd>
+            <img src="http://localhost:54888/model.img" class="profile-user-img" style="max-width:100px" />
+        </dd>*@
+
+        <dt>
+            @Html.DisplayNameFor(model => model.gianhap)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.gianhap)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.giaban)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.giaban)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ngaythem)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ngaythem)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

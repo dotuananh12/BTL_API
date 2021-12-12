@@ -1,0 +1,118 @@
+﻿@model IEnumerable<webapp.Models.nhacungcap>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<h2>Index</h2>
+<div class="">
+    <input name="search" type="text" id="search" placeholder="search..." required />
+    <button type="button" id="btnsearch" class="btn btn-primary glyphicon glyphicon-search"></button>
+</div>
+<p>
+    @*@Html.ActionLink("Create New", "Create")*@
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.tenncc)*@
+            Tên nhà cung cấp
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.email)*@
+            Email
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.phone)*@
+            Phone
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.diachi)*@
+            Địa chỉ
+        </th>
+        <th></th>
+    </tr>
+    <tbody id="datasearchding">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tenncc)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.phone)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.diachi)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id=item.id }) |
+                    @Html.ActionLink("Details", "Details", new { id=item.id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id=item.id })*@
+                    @Html.ActionLink("Edit", "Edit", new { id = item.id }, new { @class = "btn btn-primary" }) |
+
+                    @Html.ActionLink("Details", "Details", new { id = item.id }, new { @class = "btn btn-success" }) |
+                    @*@Html.ActionLink("Delete", "Delete", new { id=item.id })*@
+                    <button onclick="xoaloai('@item.id')" class="btn btn-danger ">Xóa</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    $(document).ready(function () {
+        $("#btnsearch").click(function () {
+            var searchvalue = $("#search").val();
+            var setdata = $("#datasearchding");
+            setdata.html("");
+            $.ajax({
+                type: "get",
+                url: "http://localhost:54888/api/nhacungcap?search=" + searchvalue,
+                contentType: "html",
+                success: function (result) {
+                    if (result.length == 0) {
+                        setdata.append('<tr><td style="color:red">Không tìm thấy dữ liệu</td></tr>')
+                    }
+                    else
+                        $.each(result, function (key, value) {
+                            var stt = 1;
+                            var data = "<tr>" +
+                                "<td>" + value.tenncc + "</td>" +
+                                "<td>" + value.email + "</td>" +
+                                "<td>" + value.phone + "</td>" +
+                                "<td>" + value.diachi + "</td>" +
+                                "</tr>";
+                            setdata.append(data);
+                        });
+                }
+            })
+        });
+    });
+</script>
+<script>
+    function xoaloai(id) {
+        var cf = confirm("Bạn có muốn xóa không ?");
+        if (cf) {
+            $.ajax({
+                type: "delete",
+                url: "http://localhost:54888/api/nhacungcap?id=" + id,
+                datatype: "json",
+                data: {
+                    id: id,//controler
+                },
+                success: function (data) {
+                    window.location;
+                    location.reload();
+                    alert('xóa thành công');
+                },
+                //
+                //alert("OK ! xóa thành công.");
+            });
+        }
+    }
+</script>

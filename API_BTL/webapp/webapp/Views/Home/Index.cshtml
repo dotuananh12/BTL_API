@@ -1,0 +1,71 @@
+﻿@*<div class="jumbotron">
+        <h1>ASP.NET</h1>
+        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
+        <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    </div>*@
+@*<div class="row">
+        <div class="col-md-4">
+            <h2>Getting started</h2>
+            <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
+            a broad range of clients, including browsers and mobile devices. ASP.NET Web API
+            is an ideal platform for building RESTful applications on the .NET Framework.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Get more libraries</h2>
+            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
+        </div>
+        <div class="col-md-4">
+            <h2>Web Hosting</h2>
+            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+            <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
+        </div>
+    </div>*@
+@using webapp.Models
+@{
+    Model1 db = new Model1();
+    ViewBag.slsp = db.sanphams.Count();
+    ViewBag.sllsp = db.loaisanphams.Count();
+    ViewBag.slncc = db.nhacungcaps.Count();
+    ViewBag.slkh = db.khachhangs.Count();
+    ViewBag.slhd = db.hoadons.Count();
+    ViewBag.Title = "Index";
+}
+<h2>Thống Kê </h2>
+@*<div>
+    <div class="row">
+        <div class="col-lg-3 col-xs-6">
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <p>Tổng sản phẩm</p>
+                    <h3>@ViewBag.slsp</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>*@
+<div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Tổng sản phẩm</th>
+                <th scope="col">Tổng loại sản phẩm</th>
+                <th scope="col">Nhà cung cấp</th>
+                <th scope="col">Khách hàng</th>
+                <th scope="col">Hóa đơn</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>@ViewBag.slsp sản phẩm </td>
+                <td>@ViewBag.slsp loại sản phẩm </td>
+                <td>@ViewBag.slncc Nhà cung cấp</td>
+                <td>@ViewBag.slkh Khách hàng</td>
+                <td>@ViewBag.slhd Bill</td>
+                
+            </tr>
+           
+        </tbody>
+    </table>
+</div>

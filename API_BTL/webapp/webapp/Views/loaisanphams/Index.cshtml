@@ -1,0 +1,96 @@
+﻿@model IEnumerable<webapp.Models.loaisanpham>
+
+@{
+    ViewBag.Title = "Index";
+}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<h2>Loại sản phẩm</h2>
+<div class="">
+    <input name="search" type="text" id="search" placeholder="search..." required />
+    <button type="button" id="btnsearch" class="btn btn-primary glyphicon glyphicon-search"></button>
+</div>
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.tenloai)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ghichu)
+        </th>
+        <th></th>
+    </tr>
+    <tbody id="datasearchding">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.tenloai)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ghichu)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.id }, new { @class = "btn btn-primary" }) |
+
+                    @Html.ActionLink("Details", "Details", new { id = item.id }, new { @class = "btn btn-success" }) |
+                    @*@Html.ActionLink("Delete", "Delete", new { id=item.id })*@
+                    <button onclick="xoaloai('@item.id')" class="btn btn-danger ">Xóa</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<script>
+    $(document).ready(function () {
+        $("#btnsearch").click(function () {
+            var searchvalue = $("#search").val();
+            var setdata = $("#datasearchding");
+            setdata.html("");
+            $.ajax({
+                type: "get",
+                url: "http://localhost:54888/api/loaisanpham?search=" + searchvalue,
+                contentType: "html",
+                success: function (result) {
+                    if (result.length == 0) {
+                        setdata.append('<tr><td style="color:red">Không tìm thấy dữ liệu</td></tr>')
+                    }
+                    else
+                        $.each(result, function (key, value) {
+                            var stt = 1;
+                            var data = "<tr>" +
+                                "<td>" + value.id + "</td>" +
+                                "<td>" + value.tenloai + "</td>" +
+                                "<td>" + value.ghichu + "</td>" +                                                          
+                                "</tr>";
+                            setdata.append(data);
+                        });
+                }
+            })
+        });
+    });
+</script>
+<script>
+    function xoaloai(id) {
+        var cf = confirm("Bạn có muốn xóa không ?");
+        if (cf) {
+            $.ajax({
+                type: "delete",
+                url: "http://localhost:54888/api/loaisanpham?id=" + id,
+                datatype: "json",
+                data: {
+                    id: id,//controler
+                },
+                success: function (data) {
+                    window.location;
+                    location.reload();
+                    alert('xóa thành công');
+                },
+                //
+                //alert("OK ! xóa thành công.");
+            });
+        }
+    }
+</script>

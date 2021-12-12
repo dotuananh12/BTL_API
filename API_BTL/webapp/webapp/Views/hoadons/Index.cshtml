@@ -1,0 +1,81 @@
+﻿@model IEnumerable<webapp.Models.HoaDonViewModel>
+@using webapp.Models
+@{
+    Model1 db = new Model1();
+    ViewBag.id = new SelectList(db.khachhangs, "id", "tenkh");
+    ViewBag.sanpham = new SelectList(db.sanphams, "id", "tensp");
+    ViewBag.Title = "Index";
+}
+<h2>Hóa đơn</h2>
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+           Tên khách hàng
+        </th>
+        <th>
+            Ngày tạo
+        </th>
+        <th>
+            Sản phẩm
+        </th>
+        <th>
+            Số lượng
+        </th>
+        <th>
+           Thành tiền
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.tenkh)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ngaytao)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.tensp)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.soluong)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.thanhtien)
+            </td>
+            <td>
+                @*@Html.ActionLink("Edit", "Edit", new { id = item.id }) |*@
+                @Html.ActionLink("Details", "Details", new { id = item.id }, new { @class = "btn btn-success" }) 
+                @*<button onclick="xoaloai('@item.id')" class="btn btn-danger ">Xóa</button>*@
+            </td>
+        </tr>
+    }
+
+</table>
+<script>
+    function xoaloai(id) {
+        var cf = confirm("Bạn có muốn xóa không ?");
+        if (cf) {
+            $.ajax({
+                type: "delete",
+                url: "http://localhost:54888/api/hoadon?id=" + id,
+                datatype: "json",
+                data: {
+                    id: id,//controler
+                },
+                success: function (data) {
+                    window.location;
+                    location.reload();
+                    alert('xóa thành công');
+                },
+                //
+                //alert("OK ! xóa thành công.");
+            });
+        }
+    }
+</script>
